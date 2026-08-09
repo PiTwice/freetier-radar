@@ -1,0 +1,40 @@
+name: watch-pricing
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check pricing pages
+        id: check
+        run: |
+          set +e
+          python3 scripts/check_changes.py | tee report.txt
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+
+      - name: Open issue if changes found
+        if: contains(steps.check.outputs.exit_code, '2')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue create \
+            --title "Pricing pages changed — re-verify ($(date +%F))" \
+            --body "$(cat report.txt)"
+
+      - name: Commit updated snapshots
+        run: |
+          git config user.name "radar-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add snapshots
+          git diff --cached --quiet || git commit -m "chore: update pricing snapshots"
+          git push
