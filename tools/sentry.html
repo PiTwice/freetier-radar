@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sentry free tier in 2026: real limits, traps & verification — FreeTier Radar</title>
+<meta name="description" content="Sentry free tier, verified 2026-08-09: 5,000 errors / mo; 5M spans (performance); 50 session replays. Plus the traps the pricing page won&#x27;t highlight.">
+<link rel="canonical" href="https://USERNAME.github.io/freetier-radar/tools/sentry.html">
+<meta property="og:title" content="Sentry free tier in 2026: verified limits and traps">
+<meta property="og:description" content="Sentry free tier, verified 2026-08-09: 5,000 errors / mo; 5M spans (performance); 50 session replays. Plus the traps the pricing page won&#x27;t highlight.">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Does Sentry have a free tier?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Error tracking + performance. Free Developer plan covers a solo project comfortably. Key limits: 5,000 errors / mo; 5M spans (performance); 50 session replays; 1 user seat, 1 uptime + 1 cron monitor."}}, {"@type": "Question", "name": "Does the Sentry free tier require a credit card?", "acceptedAnswer": {"@type": "Answer", "text": "No credit card is required to sign up."}}, {"@type": "Question", "name": "What are the catches of the Sentry free tier?", "acceptedAnswer": {"@type": "Answer", "text": "1 seat only — no teammates on free A crash-loop in production can blow the month's error quota in minutes (set rate limits!)"}}]}</script>
+<style>
+:root{--bg:#0F172A;--bg-deep:#0B1120;--surface:#16203A;--muted:#272F42;--border:#2E3A57;
+--border-strong:#475569;--fg:#F8FAFC;--fg-2:#B6C2D9;--fg-3:#7E8CA8;--accent:#22C55E;
+--accent-bg:rgba(34,197,94,.12);--warn:#F59E0B;--warn-bg:rgba(245,158,11,.12);--radius:14px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.container{max-width:760px;margin:0 auto;padding:0 24px}
+header.site{position:sticky;top:0;z-index:100;background:rgba(11,17,32,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:60px;max-width:1152px;margin:0 auto;padding:0 24px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;color:var(--fg)}
+.logo:hover{text-decoration:none}
+.crumbs{font-size:13px;color:var(--fg-3);margin:32px 0 8px}
+h1{font-size:clamp(24px,4.5vw,34px);font-weight:800;letter-spacing:-.02em;line-height:1.2}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;padding:5px 12px;border-radius:6px}
+.badge.ok{color:var(--accent);background:var(--accent-bg)}
+.badge.warn{color:var(--warn);background:var(--warn-bg)}
+.badge.cat{color:var(--fg-3);background:var(--muted)}
+p.lead{color:var(--fg-2);font-size:17px}
+h2{font-size:20px;font-weight:700;margin:36px 0 12px;letter-spacing:-.01em}
+ul.clean{list-style:none;display:flex;flex-direction:column;gap:10px}
+ul.clean li{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:14.5px;color:var(--fg-2);display:flex;gap:10px;align-items:flex-start}
+ul.clean li::before{content:"✓";color:var(--accent);font-weight:700;flex:none}
+ul.clean.traps li::before{content:"⚠";color:var(--warn)}
+.meta-line{font-size:13.5px;color:var(--fg-3);border-top:1px solid var(--border);margin-top:36px;padding-top:16px}
+.related{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.related a{border:1px solid var(--border);border-radius:999px;padding:8px 16px;font-size:14px;color:var(--fg-2);min-height:44px;display:inline-flex;align-items:center}
+.related a:hover{color:var(--accent);border-color:var(--accent);text-decoration:none}
+.cta{margin:40px 0;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center}
+.cta a.btn{display:inline-flex;align-items:center;min-height:48px;padding:10px 24px;border-radius:999px;background:var(--accent);color:#06220F;font-weight:600;margin-top:12px}
+.cta a.btn:hover{text-decoration:none;background:#33D46E}
+footer.site{border-top:1px solid var(--border);margin-top:48px;padding:32px 0;color:var(--fg-3);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<header class="site"><div class="nav">
+  <a class="logo" href="../index.html">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6" opacity=".55"/><circle cx="12" cy="12" r="2" fill="#22C55E" stroke="none"/><line x1="12" y1="12" x2="19" y2="5"/></svg>
+    FreeTier&nbsp;Radar
+  </a>
+  <nav style="font-size:14px"><a href="../index.html#tools" style="color:var(--fg-2)">← All free tiers</a></nav>
+</div></header>
+<main class="container">
+  <p class="crumbs"><a href="../index.html">Home</a> / <a href="../index.html#tools">Monitoring</a> / Sentry</p>
+  <h1>Sentry free tier: what you actually get</h1>
+  <div class="badges">
+    <span class="badge cat">Monitoring</span>
+    <span class="badge ok">No card required</span>
+    <span class="badge ok">Verified 2026-08-09</span>
+  </div>
+  <p class="lead">Error tracking + performance. Free Developer plan covers a solo project comfortably.</p>
+
+  <h2>The limits, verified</h2>
+  <ul class="clean"><li>5,000 errors / mo</li><li>5M spans (performance)</li><li>50 session replays</li><li>1 user seat, 1 uptime + 1 cron monitor</li></ul>
+
+  <h2>Watch out — the fine print</h2>
+  <ul class="clean traps"><li>1 seat only — no teammates on free</li><li>A crash-loop in production can blow the month&#x27;s error quota in minutes (set rate limits!)</li></ul>
+
+  <h2>Should you build on it?</h2>
+  <p style="color:var(--fg-2)">Sentry can absolutely be used for free, but go in with eyes open: the 2 caveats above are the exact things that catch people in production. If your project can tolerate them, it&#x27;s a fine pick; if not, check the related free tiers below for an alternative.</p>
+
+  <div class="cta">
+    <strong>Free tiers change — and usually not in your favor.</strong>
+    <p style="color:var(--fg-2);font-size:14.5px;margin-top:6px">Get one short email when Sentry (or any tool we track) changes or kills its free tier.</p>
+    <a class="btn" href="https://freetierradar.substack.com" target="_blank" rel="noopener">Get change alerts</a>
+  </div>
+
+  <h2>Related free tiers</h2>
+  <div class="related"><a href="grafana-cloud.html">Grafana Cloud</a><a href="vercel.html">Vercel</a><a href="netlify.html">Netlify</a></div>
+
+  <p class="meta-line">Verified 2026-08-09 against <a href="https://sentry.io/pricing/" target="_blank" rel="noopener nofollow">the official pricing page</a>. Additional context: <a href="https://www.toolpick.dev/pricing/sentry" target="_blank" rel="noopener nofollow">source</a>. Found an error? <a href="https://github.com/USERNAME/freetier-radar" target="_blank" rel="noopener">Open an issue</a> — corrections ship within a day.</p>
+</main>
+<footer class="site"><div class="container">© 2026 FreeTier Radar · Limits change without notice — always confirm on the provider's official pricing page. Not affiliated with Sentry.</div></footer>
+<!-- Analytics: create a free account at goatcounter.com, then uncomment and set your code.
+<script data-goatcounter="https://YOURCODE.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+-->
+</body>
+</html>

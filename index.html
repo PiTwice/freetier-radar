@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FreeTier Radar — Free tiers for developers, verified (with the traps highlighted)</title>
+<meta name="description" content="A hand-verified directory of developer free tiers in 2026: hosting, databases, auth, email, monitoring. Real limits, hidden traps, and a graveyard of free tiers that died.">
+<meta name="keywords" content="free tier, developers, free hosting, free database, free postgres, vercel free, supabase free, developer tools free">
+<meta property="og:title" content="FreeTier Radar — developer free tiers, verified">
+<meta property="og:description" content="Real limits, hidden traps, verification dates. Plus the Free Tier Graveyard.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://USERNAME.github.io/freetier-radar/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"FreeTier Radar","description":"A hand-verified directory of developer free tiers: real limits, hidden traps, verification dates.","url":"https://USERNAME.github.io/freetier-radar/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"How is the data on FreeTier Radar verified?","acceptedAnswer":{"@type":"Answer","text":"Every entry is checked by a human against the provider's official pricing page or docs and stamped with a verification date. A monitoring script watches pricing pages for changes and flags entries for re-review."}},
+{"@type":"Question","name":"What counts as a free tier trap?","acceptedAnswer":{"@type":"Answer","text":"Anything a pricing page technically discloses but you'd realistically miss: databases that pause or expire, hard caps that take your site down, no-commercial-use clauses, trial credits disguised as free plans, and data deletion policies."}},
+{"@type":"Question","name":"Do providers pay to be listed on FreeTier Radar?","acceptedAnswer":{"@type":"Answer","text":"No. No sponsorships, no affiliate links, no featured placements affect the listings or rankings."}}
+]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0F172A; --bg-deep:#0B1120; --surface:#16203A; --surface-2:#1B2745;
+    --muted:#272F42; --border:#2E3A57; --border-strong:#475569;
+    --fg:#F8FAFC; --fg-2:#B6C2D9; --fg-3:#7E8CA8;
+    --accent:#22C55E; --accent-dim:#16A34A; --accent-bg:rgba(34,197,94,.12);
+    --warn:#F59E0B; --warn-bg:rgba(245,158,11,.12);
+    --danger:#EF4444; --danger-bg:rgba(239,68,68,.10);
+    --radius:14px;
+    --space-1:4px; --space-2:8px; --space-3:16px; --space-4:24px; --space-5:32px; --space-6:48px; --space-7:64px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *,*::before,*::after{animation:none!important; transition:none!important} }
+  body{
+    background:var(--bg); color:var(--fg);
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    font-size:16px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent); text-decoration:none}
+  a:hover{text-decoration:underline}
+  .mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+  .container{max-width:1152px; margin:0 auto; padding:0 var(--space-4)}
+
+  /* header */
+  header.site{
+    position:sticky; top:0; z-index:100;
+    background:rgba(11,17,32,.85); backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav{display:flex; align-items:center; justify-content:space-between; height:60px}
+  .logo{display:flex; align-items:center; gap:10px; font-weight:800; font-size:17px; color:var(--fg)}
+  .logo:hover{text-decoration:none}
+  .logo svg{flex:none}
+  .nav-links{display:flex; gap:var(--space-4); font-size:14px; font-weight:500}
+  .nav-links a{color:var(--fg-2)}
+  .nav-links a:hover{color:var(--fg); text-decoration:none}
+
+  /* hero */
+  .hero{padding:var(--space-7) 0 var(--space-5); text-align:center}
+  .hero h1{font-size:clamp(28px,5vw,44px); font-weight:800; letter-spacing:-.02em; line-height:1.15; max-width:800px; margin:0 auto}
+  .hero h1 .hl{color:var(--accent)}
+  .hero p.sub{color:var(--fg-2); max-width:620px; margin:var(--space-3) auto 0; font-size:17px}
+  .hero .updated{display:inline-flex; align-items:center; gap:8px; margin-top:var(--space-3); font-size:13px; color:var(--fg-3); background:var(--surface); border:1px solid var(--border); padding:6px 14px; border-radius:999px}
+  .hero .updated .dot{width:8px; height:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 10px var(--accent)}
+
+  /* search + filters */
+  .controls{position:sticky; top:60px; z-index:90; background:var(--bg); box-shadow:0 10px 20px -10px rgba(11,17,32,.9); padding:var(--space-3) 0 var(--space-2)}
+  .searchbox{position:relative; max-width:560px; margin:0 auto}
+  .searchbox svg{position:absolute; left:16px; top:50%; transform:translateY(-50%); color:var(--fg-3)}
+  .searchbox input{
+    width:100%; height:52px; padding:0 20px 0 48px;
+    background:var(--surface); color:var(--fg);
+    border:1px solid var(--border-strong); border-radius:999px;
+    font-size:16px; font-family:inherit; outline:none;
+    transition:border-color .2s, box-shadow .2s;
+  }
+  .searchbox input::placeholder{color:var(--fg-3)}
+  .searchbox input:focus{border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-bg)}
+  .chips{display:flex; flex-wrap:wrap; gap:var(--space-2); justify-content:center; margin-top:var(--space-3)}
+  .chip{
+    cursor:pointer; user-select:none;
+    display:inline-flex; align-items:center; gap:6px;
+    min-height:44px; padding:8px 16px; border-radius:999px;
+    background:var(--surface); color:var(--fg-2);
+    border:1px solid var(--border); font-size:14px; font-weight:500;
+    transition:all .18s ease;
+  }
+  .chip:hover{border-color:var(--border-strong); color:var(--fg)}
+  .chip[aria-pressed="true"]{background:var(--accent-bg); border-color:var(--accent); color:var(--accent)}
+  .chip .count{font-size:12px; color:var(--fg-3)}
+  .chip[aria-pressed="true"] .count{color:var(--accent-dim)}
+  .toggles{display:flex; gap:var(--space-2); justify-content:center; margin-top:var(--space-2); flex-wrap:wrap}
+
+  /* grid */
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(330px,1fr)); gap:var(--space-3); padding:var(--space-4) 0 var(--space-6)}
+  .card{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:var(--space-4); display:flex; flex-direction:column; gap:var(--space-3);
+    transition:transform .18s ease, border-color .18s ease;
+  }
+  .card:hover{transform:translateY(-2px); border-color:var(--border-strong)}
+  .card-head{display:flex; align-items:flex-start; justify-content:space-between; gap:var(--space-2)}
+  .card-title{font-size:18px; font-weight:700; letter-spacing:-.01em}
+  .card-title a{color:var(--fg)}
+  .card-title a:hover{color:var(--accent); text-decoration:none}
+  .cat-tag{font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.06em; color:var(--fg-3); background:var(--muted); padding:4px 10px; border-radius:6px; white-space:nowrap}
+  .card .summary{color:var(--fg-2); font-size:14px}
+  .badges{display:flex; flex-wrap:wrap; gap:6px}
+  .badge{display:inline-flex; align-items:center; gap:5px; font-size:12px; font-weight:600; padding:4px 10px; border-radius:6px}
+  .badge.ok{color:var(--accent); background:var(--accent-bg)}
+  .badge.card-req{color:var(--warn); background:var(--warn-bg)}
+  .limits{list-style:none; display:flex; flex-direction:column; gap:6px; font-size:13.5px; color:var(--fg-2)}
+  .limits li{display:flex; gap:8px; align-items:flex-start}
+  .limits li svg{flex:none; margin-top:3px; color:var(--accent)}
+  .traps{border-top:1px dashed var(--border); padding-top:var(--space-3); display:flex; flex-direction:column; gap:6px}
+  .traps .traps-title{font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--warn); display:flex; align-items:center; gap:6px}
+  .traps ul{list-style:none; display:flex; flex-direction:column; gap:6px; font-size:13.5px; color:var(--fg-2)}
+  .traps li{display:flex; gap:8px; align-items:flex-start}
+  .traps li svg{flex:none; margin-top:3px; color:var(--warn)}
+  .card-foot{margin-top:auto; display:flex; align-items:center; justify-content:space-between; border-top:1px solid var(--border); padding-top:var(--space-3); font-size:12.5px; color:var(--fg-3)}
+  .card-foot .verified{display:inline-flex; align-items:center; gap:6px}
+  .card-foot .verified svg{color:var(--accent)}
+  .empty{display:none; text-align:center; color:var(--fg-2); padding:var(--space-6) 0}
+  .empty.visible{display:block}
+
+  /* graveyard */
+  .section-title{font-size:clamp(22px,3.5vw,30px); font-weight:800; letter-spacing:-.02em; text-align:center}
+  .section-sub{color:var(--fg-2); text-align:center; max-width:560px; margin:var(--space-2) auto 0}
+  .graveyard{background:var(--bg-deep); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:var(--space-6) 0}
+  .grave-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:var(--space-3); margin-top:var(--space-4)}
+  .grave{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:var(--space-4); position:relative; overflow:hidden;
+  }
+  .grave::before{content:""; position:absolute; inset:0 auto 0 0; width:3px; background:var(--danger)}
+  .grave .g-head{display:flex; justify-content:space-between; align-items:baseline; gap:var(--space-2)}
+  .grave .g-name{font-weight:700; font-size:16px; text-decoration:line-through; text-decoration-color:var(--danger); text-decoration-thickness:2px}
+  .grave .g-date{font-size:12px; color:var(--danger); font-weight:600; white-space:nowrap}
+  .grave .g-what{font-size:13.5px; color:var(--fg-2); margin-top:6px}
+  .grave .g-note{font-size:13px; color:var(--fg-3); margin-top:8px; border-top:1px dashed var(--border); padding-top:8px}
+
+  /* subscribe */
+  .subscribe{padding:var(--space-6) 0 0}
+  .sub-box{border:1px solid var(--border); border-radius:var(--radius); background:linear-gradient(180deg,var(--surface),var(--bg)); padding:var(--space-6) var(--space-4); text-align:center}
+  .sub-actions{display:flex; gap:var(--space-3); justify-content:center; flex-wrap:wrap; margin-top:var(--space-4)}
+  .btn{display:inline-flex; align-items:center; gap:8px; min-height:48px; padding:10px 24px; border-radius:999px; font-weight:600; font-size:15px; cursor:pointer; transition:all .18s ease}
+  .btn:hover{text-decoration:none; transform:translateY(-1px)}
+  .btn.primary{background:var(--accent); color:#06220F}
+  .btn.primary:hover{background:#33D46E}
+  .btn.ghost{border:1px solid var(--border-strong); color:var(--fg-2)}
+  .btn.ghost:hover{color:var(--fg); border-color:var(--fg-3)}
+
+  /* faq + footer */
+  .faq{padding:var(--space-6) 0; max-width:760px; margin:0 auto}
+  .faq details{border:1px solid var(--border); border-radius:var(--radius); background:var(--surface); margin-top:var(--space-2)}
+  .faq summary{cursor:pointer; padding:var(--space-3) var(--space-4); font-weight:600; font-size:15px; list-style:none; display:flex; justify-content:space-between; align-items:center; min-height:44px}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+"; color:var(--fg-3); font-size:20px; font-weight:400}
+  .faq details[open] summary::after{content:"–"}
+  .faq .a{padding:0 var(--space-4) var(--space-3); color:var(--fg-2); font-size:14.5px}
+  footer.site{border-top:1px solid var(--border); padding:var(--space-5) 0; color:var(--fg-3); font-size:13.5px}
+  footer .cols{display:flex; justify-content:space-between; gap:var(--space-4); flex-wrap:wrap}
+  .disclaimer{margin-top:var(--space-3); font-size:12.5px; max-width:640px}
+
+  @media (max-width:640px){
+    .grid{grid-template-columns:1fr}
+    .nav-links{display:none}
+    .hero{padding-top:var(--space-5)}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="container nav">
+    <a class="logo" href="#">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6" opacity=".55"/><circle cx="12" cy="12" r="2" fill="#22C55E" stroke="none"/><line x1="12" y1="12" x2="19" y2="5"/></svg>
+      FreeTier&nbsp;Radar
+    </a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#tools">Directory</a>
+      <a href="#graveyard">Graveyard</a>
+      <a href="#updates">Alerts</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero container">
+  <h1>Every developer free tier.<br>Verified. <span class="hl">Traps included.</span></h1>
+  <p class="sub">Pricing pages hide the catch — the sleeping databases, the 30-day expiries, the "no commercial use" clauses. We read the fine print so you don't get burned.</p>
+  <span class="updated"><span class="dot" aria-hidden="true"></span>Last full review: <strong class="mono" id="last-review">—</strong></span>
+</section>
+
+<main>
+<div class="controls container" id="tools">
+  <div class="searchbox">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input id="search" type="search" placeholder="Search: postgres, email, auth…" aria-label="Search tools" autocomplete="off">
+  </div>
+  <div class="chips" id="cat-chips" role="group" aria-label="Filter by category"></div>
+  <div class="toggles">
+    <button class="chip" id="toggle-nocard" aria-pressed="false">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+      No credit card required
+    </button>
+  </div>
+</div>
+
+<div class="container">
+  <div class="grid" id="grid" aria-live="polite"></div>
+  <p class="empty" id="empty">Nothing matches. Try a different search or clear the filters.</p>
+</div>
+</main>
+
+<section class="graveyard" id="graveyard">
+  <div class="container">
+    <h2 class="section-title">The Free Tier Graveyard</h2>
+    <p class="section-sub">Free tiers are not forever. These ones died — plan your stack accordingly.</p>
+    <div class="grave-grid" id="grave-grid"></div>
+  </div>
+</section>
+
+<section class="subscribe container" id="updates">
+  <div class="sub-box">
+    <h2 class="section-title">Know before it bites you</h2>
+    <p class="section-sub">One short email when a free tier changes or dies. No schedule, no filler — only actual changes, usually 1–3 emails a month.</p>
+    <div class="sub-actions">
+      <a class="btn primary" id="newsletter-link" href="https://freetierradar.substack.com" target="_blank" rel="noopener">Get change alerts</a>
+      <a class="btn ghost" id="gh-link" href="https://github.com/USERNAME/freetier-radar" target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 .5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.35.96.1-.75.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.17c0 .31.21.68.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"/></svg>
+        Watch on GitHub
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="faq container" id="faq">
+  <h2 class="section-title">FAQ</h2>
+  <details>
+    <summary>How is the data verified?</summary>
+    <div class="a">Every entry is checked by a human against the provider's official pricing page or docs, and stamped with the verification date you see on each card. A monitoring script watches pricing pages for changes and flags entries for re-review.</div>
+  </details>
+  <details>
+    <summary>What counts as a "trap"?</summary>
+    <div class="a">Anything a pricing page technically discloses but you'd realistically miss: databases that pause or expire, hard caps that take your site down, "no commercial use" clauses, trial credits disguised as free plans, and data deletion policies.</div>
+  </details>
+  <details>
+    <summary>A limit changed / something is wrong. How do I report it?</summary>
+    <div class="a">Open an issue or a pull request on GitHub — the data lives in a single <span class="mono">tools.json</span> file, so a fix is a one-line change. Corrections are usually merged within a day.</div>
+  </details>
+  <details>
+    <summary>Do providers pay to be listed here?</summary>
+    <div class="a">No. No sponsorships, no affiliate links, no "featured" placements. That's the whole point — the moment rankings are for sale, a directory like this is worthless.</div>
+  </details>
+</section>
+
+<footer class="site">
+  <div class="container">
+    <div class="cols">
+      <div>© 2026 FreeTier Radar · Built by an indie developer</div>
+      <div><a href="#tools">Directory</a> · <a href="#graveyard">Graveyard</a> · <a href="#faq">FAQ</a></div>
+    </div>
+    <p class="disclaimer">Limits change without notice — always confirm on the provider's official pricing page before betting your project on a free tier. This site is not affiliated with any listed provider.</p>
+  </div>
+</footer>
+
+<script id="tools-data" type="application/json">
+{"meta":{"site":"FreeTier Radar","tagline":"Free tiers for developers — verified, with the traps highlighted","base_url":"https://USERNAME.github.io/freetier-radar","repo_url":"https://github.com/USERNAME/freetier-radar","newsletter_url":"https://freetierradar.substack.com","last_full_review":"2026-08-09","schema_version":1},"tools":[{"id":"vercel","name":"Vercel","category":"hosting","url":"https://vercel.com","pricing_url":"https://vercel.com/pricing","summary":"Hobby plan: static + serverless hosting for personal projects.","limits":["100 GB bandwidth / mo","100k function invocations / mo","6,000 build minutes / mo","10s function timeout","1 concurrent build"],"card_required":false,"traps":["Commercial use is not allowed on Hobby","Hard caps: functions stop working when limits are hit"],"verified":"2026-08-09","source":"https://deploywise.dev/blog/vercel-free-tier-limits-2026"},{"id":"netlify","name":"Netlify","category":"hosting","url":"https://www.netlify.com","pricing_url":"https://www.netlify.com/pricing/","summary":"Free plan is now credit-based: 300 credits/month to spend on deploys, bandwidth and compute.","limits":["300 credits / mo","≈ 15 GB bandwidth (20 credits/GB) or ~20 production deploys (15 credits each)","1 team member"],"card_required":false,"traps":["Sites STOP SERVING traffic when credits run out (until next cycle)","Frequent production deploys burn credits fast"],"verified":"2026-08-09","source":"https://netli.fyi/blog/netlify-pricing-and-limits"},{"id":"cloudflare","name":"Cloudflare Workers + Pages","category":"hosting","url":"https://workers.cloudflare.com","pricing_url":"https://developers.cloudflare.com/workers/platform/pricing/","summary":"The most generous free hosting: unlimited static requests, serverless at the edge, KV/D1/R2 included.","limits":["100k Worker requests / day","10 ms CPU per invocation","Static assets: free and unlimited","D1 (SQLite): 5 GB storage, 5M row reads / day","KV: 100k reads / day, 1k writes / day"],"card_required":false,"traps":["10 ms CPU limit rules out heavy compute per request","Daily (not monthly) quotas — a traffic spike can exhaust a day"],"verified":"2026-08-09","source":"https://developers.cloudflare.com/workers/platform/pricing/"},{"id":"render","name":"Render","category":"hosting","url":"https://render.com","pricing_url":"https://render.com/docs/free","summary":"Free web services + static sites; closest thing to the old Heroku free tier.","limits":["750 instance-hours / mo per workspace","512 MB RAM web services","Free Postgres: 1 GB, single instance","No persistent disks, no SSH on free"],"card_required":false,"traps":["Services spin down after 15 min idle (~1 min cold start)","Free Postgres EXPIRES 30 days after creation — data deleted","Free Redis is in-memory only, data lost on restart"],"verified":"2026-08-09","source":"https://render.com/docs/free"},{"id":"railway","name":"Railway","category":"hosting","url":"https://railway.com","pricing_url":"https://docs.railway.com/pricing/free-trial","summary":"One-time $5 trial credit (30 days), then a tiny $1/month free credit.","limits":["$5 one-time trial credit, expires in 30 days","After trial: $1 free credit / mo (doesn't accumulate)","Trial: max 1 GB RAM, 5 services per project"],"card_required":false,"traps":["Trial volumes are DELETED 30 days after credits expire","$1/mo runs a real service for only a few days","Restricted outbound network unless verified via GitHub"],"verified":"2026-08-09","source":"https://docs.railway.com/pricing/free-trial"},{"id":"github-pages","name":"GitHub Pages","category":"hosting","url":"https://pages.github.com","pricing_url":"https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits","summary":"Free static hosting straight from a repo. Boring, reliable, hard to beat for docs and sites.","limits":["1 GB published site size","100 GB / mo bandwidth (soft limit)","10 builds / hour (soft limit)","Static only — no server code"],"card_required":false,"traps":["Sites in free private repos must be public","Soft limits: heavy traffic can get your site throttled"],"verified":"2026-08-09","source":"https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits"},{"id":"github-actions","name":"GitHub Actions","category":"cicd","url":"https://github.com/features/actions","pricing_url":"https://docs.github.com/en/actions/concepts/billing-and-usage","summary":"CI/CD built into GitHub. Unlimited for public repos; metered minutes for private ones.","limits":["Public repos: free, effectively unlimited","Private repos (Free plan): 2,000 minutes / mo","500 MB artifact/package storage"],"card_required":false,"traps":["macOS runners burn minutes at 10x rate, Windows at 2x","Pricing shake-up announced Dec 2025: hosted runner prices cut, self-hosted runner fee proposed then postponed — watch this space"],"verified":"2026-08-09","source":"https://github.blog/changelog/2025-12-16-coming-soon-simpler-pricing-and-a-better-experience-for-github-actions/"},{"id":"supabase","name":"Supabase","category":"database","url":"https://supabase.com","pricing_url":"https://supabase.com/pricing","summary":"Postgres + auth + storage + realtime in one free package. Great to start, aggressive pausing.","limits":["500 MB database","1 GB file storage","5 GB egress / mo","Auth: 50k monthly active users","2 active projects max"],"card_required":false,"traps":["Projects PAUSE after 1 week of inactivity (manual restore)","No backups / PITR on free","Paused long enough — project can be removed"],"verified":"2026-08-09","source":"https://uibakery.io/blog/supabase-pricing"},{"id":"neon","name":"Neon","category":"database","url":"https://neon.com","pricing_url":"https://neon.com/faqs/free-plan-limits-and-quotas","summary":"Serverless Postgres with branching. One of the cleanest free DB tiers right now.","limits":["0.5 GB storage per project","100 CU-hours compute / mo (~400h at 0.25 CU)","Up to 100 projects, 10 branches each","5 GB egress / mo"],"card_required":false,"traps":["Scale-to-zero after 5 min idle (can't be disabled) — first query after idle is slow","Compute suspends for the rest of the month if CU-hours run out"],"verified":"2026-08-09","source":"https://neon.com/faqs/free-plan-limits-and-quotas"},{"id":"turso","name":"Turso","category":"database","url":"https://turso.tech","pricing_url":"https://turso.tech/pricing","summary":"Edge SQLite (libSQL). Big storage for a free tier, read-heavy friendly.","limits":["5 GB storage","500M row reads / mo","10M row writes / mo"],"card_required":false,"traps":["SQLite semantics — not a drop-in Postgres/MySQL replacement","Write quota is 50x smaller than read quota"],"verified":"2026-08-09","source":"https://agentdeals.dev/database-free-tier-comparison-2026"},{"id":"mongodb-atlas","name":"MongoDB Atlas (M0)","category":"database","url":"https://www.mongodb.com/atlas","pricing_url":"https://www.mongodb.com/docs/atlas/reference/free-shared-limitations/","summary":"Free shared MongoDB cluster. Small but stable — has existed for years without cuts.","limits":["512 MB storage","Shared RAM / vCPU","500 max connections","1 M0 cluster per project"],"card_required":false,"traps":["Clusters idle for 60+ days can be auto-paused","No backups on M0; some ops (e.g. $out) unsupported"],"verified":"2026-08-09","source":"https://www.mongodb.com/docs/atlas/reference/free-shared-limitations/"},{"id":"upstash","name":"Upstash","category":"database","url":"https://upstash.com","pricing_url":"https://upstash.com/pricing","summary":"Serverless Redis + queues + vector DB, priced per request. Free tier has been stable for years.","limits":["Redis: 500k commands / mo, 256 MB","QStash: 1,000 messages / day","Vector: 10k vectors"],"card_required":false,"traps":["Per-command pricing model: a chatty client library can eat the quota"],"verified":"2026-08-09","source":"https://agentdeals.dev/vendor/upstash"},{"id":"firebase","name":"Firebase (Spark)","category":"database","url":"https://firebase.google.com","pricing_url":"https://firebase.google.com/pricing","summary":"Google's app backend. Free Spark plan still strong for Firestore + Auth, but shrinking.","limits":["Firestore: 1 GiB storage, 50k reads / day","Auth: 50k MAU","Cloud Functions: requires Blaze (pay-as-you-go) plan since 2025"],"card_required":false,"traps":["Cloud Storage was REMOVED from the free Spark plan (Feb 2026)","Deep lock-in to proprietary Google APIs","Easy to silently graduate into a paid Blaze bill"],"verified":"2026-08-09","source":"https://agentdeals.dev/database-free-tier-comparison-2026"},{"id":"clerk","name":"Clerk","category":"auth","url":"https://clerk.com","pricing_url":"https://clerk.com/pricing","summary":"Drop-in auth components. Free tier recently jumped to 50k monthly retained users.","limits":["50,000 monthly retained users (MRU)","Up to 3 social login providers","100 monthly retained organizations","3 dashboard seats"],"card_required":false,"traps":["MRU counts users who RETURN 24h+ after signup — different metric than MAU","No MFA, passkeys or SMS auth on free","7-day fixed session lifetime"],"verified":"2026-08-09","source":"https://clerk.com/pricing"},{"id":"auth0","name":"Auth0","category":"auth","url":"https://auth0.com","pricing_url":"https://auth0.com/pricing","summary":"Enterprise-grade auth with a generous MAU cap. Feature gates, not user counts, push you to paid.","limits":["25,000 MAU","Basic social + password login","Community support"],"card_required":false,"traps":["Real ceiling is features: richer MFA, custom domains, enterprise SSO are paid","Paid tiers get expensive fast once you cross them"],"verified":"2026-08-09","source":"https://idsync.com/guides/auth0-pricing"},{"id":"resend","name":"Resend","category":"email","url":"https://resend.com","pricing_url":"https://resend.com/pricing","summary":"Developer-first transactional email. The default free choice since SendGrid killed its free plan.","limits":["3,000 emails / mo","100 emails / day","1 verified domain"],"card_required":false,"traps":["The 100/day cap is what you hit first — bursts (launch day!) get throttled"],"verified":"2026-08-09","source":"https://automationatlas.io/answers/resend-free-tier-explained-2026/"},{"id":"sentry","name":"Sentry","category":"monitoring","url":"https://sentry.io","pricing_url":"https://sentry.io/pricing/","summary":"Error tracking + performance. Free Developer plan covers a solo project comfortably.","limits":["5,000 errors / mo","5M spans (performance)","50 session replays","1 user seat, 1 uptime + 1 cron monitor"],"card_required":false,"traps":["1 seat only — no teammates on free","A crash-loop in production can blow the month's error quota in minutes (set rate limits!)"],"verified":"2026-08-09","source":"https://www.toolpick.dev/pricing/sentry"},{"id":"grafana-cloud","name":"Grafana Cloud","category":"monitoring","url":"https://grafana.com/products/cloud/","pricing_url":"https://grafana.com/products/cloud/free-tier/","summary":"Managed metrics + logs + traces with a 'free forever' tier. No card required.","limits":["10k active metric series","50 GB logs + 50 GB traces / mo","14-day retention on free"],"card_required":false,"traps":["14-day retention — no long-term history","Careless Prometheus labels multiply active series fast"],"verified":"2026-08-09","source":"https://grafana.com/products/cloud/free-tier/"},{"id":"cloudinary","name":"Cloudinary","category":"storage","url":"https://cloudinary.com","pricing_url":"https://cloudinary.com/pricing","summary":"Image/video CDN with on-the-fly transforms. Credit-based free tier, stable for years.","limits":["25 monthly credits (1 credit = 1 GB storage OR 1 GB bandwidth OR 1k transformations)","Up to ~25 GB storage or bandwidth if used for one thing"],"card_required":false,"traps":["Credits are shared across storage, bandwidth AND transforms — they interact","Popular images with many transform variants eat credits quickly"],"verified":"2026-08-09","source":"https://cloudinary.com/pricing"},{"id":"cloudflare-r2","name":"Cloudflare R2","category":"storage","url":"https://developers.cloudflare.com/r2/","pricing_url":"https://developers.cloudflare.com/r2/pricing/","summary":"S3-compatible object storage with ZERO egress fees — the killer feature.","limits":["10 GB storage / mo free","1M class A + 10M class B operations / mo","Egress: free, always"],"card_required":true,"traps":["Requires a Cloudflare account with billing enabled to activate R2"],"verified":"2026-08-09","source":"https://developers.cloudflare.com/r2/pricing/"},{"id":"oracle-cloud","name":"Oracle Cloud (Always Free)","category":"hosting","url":"https://www.oracle.com/cloud/free/","pricing_url":"https://www.oracle.com/cloud/free/","summary":"Absurdly large 'Always Free' VMs: up to 4 ARM cores + 24 GB RAM. The catch is availability and reclaims.","limits":["4 OCPU ARM Ampere + 24 GB RAM (splittable into VMs)","2 AMD micro VMs (1/8 OCPU, 1 GB)","200 GB block storage","10 TB egress / mo"],"card_required":true,"traps":["Card required at signup; ARM capacity often 'out of stock' in popular regions","Idle instances on free accounts can be RECLAIMED — keep some CPU activity","Account termination stories are common; keep backups elsewhere"],"verified":"2026-08-09","source":"https://www.oracle.com/cloud/free/"}],"graveyard":[{"name":"Heroku","died":"2022-11","what":"The original free PaaS: free dynos + free Postgres","note":"Killed all free plans citing abuse; pushed users to $5+/mo Eco dynos."},{"name":"Railway (unlimited free)","died":"2023-08","what":"The generous $5/mo recurring free credit era","note":"Now a one-time $5 trial for 30 days, then $1/mo. Trial volumes deleted 30 days after expiry."},{"name":"PlanetScale","died":"2024-04","what":"Free MySQL: 5 GB storage, 1B row reads/mo","note":"Free tier removed for existing users too; thousands forced to migrate. Now from $39/mo."},{"name":"Fly.io","died":"2024","what":"Free allowances: 3 shared VMs + 3 GB volumes","note":"Moved to pure pay-as-you-go for new accounts. No free tier."},{"name":"SendGrid","died":"2025","what":"Free 100 emails/day forever plan","note":"Replaced by a 60-day trial. After that: pay or stop sending."},{"name":"Firebase Cloud Storage (Spark)","died":"2026-02","what":"Free 5 GB file storage on the Spark plan","note":"Cloud Storage now requires the paid Blaze plan; free tier keeps Firestore + Auth."}]}
+</script>
+
+<script>
+(function(){
+  "use strict";
+  var data = JSON.parse(document.getElementById("tools-data").textContent);
+  var CATEGORIES = {
+    hosting:   "Hosting & PaaS",
+    database:  "Databases",
+    auth:      "Auth",
+    email:     "Email",
+    monitoring:"Monitoring",
+    cicd:      "CI/CD",
+    storage:   "Storage & Media"
+  };
+
+  document.getElementById("last-review").textContent = data.meta.last_full_review;
+
+  var state = { q:"", cat:null, nocard:false };
+  var grid = document.getElementById("grid");
+  var empty = document.getElementById("empty");
+
+  /* ---------- svg helpers ---------- */
+  var svgCheck = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
+  var svgWarn  = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+  var svgShield= '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>';
+  var svgCard  = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>';
+
+  function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+
+  /* ---------- category chips ---------- */
+  var chipsWrap = document.getElementById("cat-chips");
+  var counts = {};
+  data.tools.forEach(function(t){ counts[t.category] = (counts[t.category]||0)+1; });
+  var allChip = makeChip("All", data.tools.length, null);
+  allChip.setAttribute("aria-pressed","true");
+  chipsWrap.appendChild(allChip);
+  Object.keys(CATEGORIES).forEach(function(key){
+    if (!counts[key]) return;
+    chipsWrap.appendChild(makeChip(CATEGORIES[key], counts[key], key));
+  });
+
+  function makeChip(label, count, key){
+    var b = document.createElement("button");
+    b.className = "chip";
+    b.type = "button";
+    b.setAttribute("aria-pressed","false");
+    b.innerHTML = esc(label) + ' <span class="count">' + count + "</span>";
+    b.addEventListener("click", function(){
+      state.cat = key;
+      chipsWrap.querySelectorAll(".chip").forEach(function(c){ c.setAttribute("aria-pressed","false"); });
+      b.setAttribute("aria-pressed","true");
+      render();
+    });
+    return b;
+  }
+
+  /* ---------- toggles + search ---------- */
+  var nocardBtn = document.getElementById("toggle-nocard");
+  nocardBtn.addEventListener("click", function(){
+    state.nocard = !state.nocard;
+    nocardBtn.setAttribute("aria-pressed", String(state.nocard));
+    render();
+  });
+
+  var searchInput = document.getElementById("search");
+  var debounce;
+  searchInput.addEventListener("input", function(){
+    clearTimeout(debounce);
+    debounce = setTimeout(function(){
+      state.q = searchInput.value.trim().toLowerCase();
+      render();
+    }, 120);
+  });
+
+  /* ---------- render ---------- */
+  function matches(t){
+    if (state.cat && t.category !== state.cat) return false;
+    if (state.nocard && t.card_required) return false;
+    if (state.q){
+      var hay = (t.name+" "+t.summary+" "+t.category+" "+(CATEGORIES[t.category]||"")+" "+t.limits.join(" ")+" "+t.traps.join(" ")).toLowerCase();
+      if (hay.indexOf(state.q) === -1) return false;
+    }
+    return true;
+  }
+
+  function cardHTML(t){
+    var h = '<article class="card">';
+    h += '<div class="card-head"><h3 class="card-title"><a href="'+esc(t.url)+'" target="_blank" rel="noopener">'+esc(t.name)+"</a></h3>";
+    h += '<span class="cat-tag">'+esc(CATEGORIES[t.category]||t.category)+"</span></div>";
+    h += '<div class="badges">';
+    if (!t.card_required) h += '<span class="badge ok">'+svgShield+" No card required</span>";
+    else h += '<span class="badge card-req">'+svgCard+" Card required</span>";
+    h += "</div>";
+    h += '<p class="summary">'+esc(t.summary)+"</p>";
+    h += '<ul class="limits">'+ t.limits.map(function(l){ return "<li>"+svgCheck+"<span>"+esc(l)+"</span></li>"; }).join("") +"</ul>";
+    if (t.traps && t.traps.length){
+      h += '<div class="traps"><div class="traps-title">'+svgWarn+" Watch out</div><ul>";
+      h += t.traps.map(function(tr){ return "<li>"+svgWarn+"<span>"+esc(tr)+"</span></li>"; }).join("");
+      h += "</ul></div>";
+    }
+    h += '<div class="card-foot"><span class="verified">'+svgCheck+" Verified "+esc(t.verified)+'</span>';
+    h += '<span><a href="tools/'+esc(t.id)+'.html">details</a> · <a href="'+esc(t.pricing_url)+'" target="_blank" rel="noopener">pricing ↗</a></span></div>';
+    h += "</article>";
+    return h;
+  }
+
+  function render(){
+    var visible = data.tools.filter(matches);
+    grid.innerHTML = visible.map(cardHTML).join("");
+    empty.classList.toggle("visible", visible.length === 0);
+  }
+
+  /* ---------- graveyard ---------- */
+  var graveWrap = document.getElementById("grave-grid");
+  graveWrap.innerHTML = data.graveyard.map(function(g){
+    return '<div class="grave"><div class="g-head"><span class="g-name">'+esc(g.name)+'</span><span class="g-date">✝ '+esc(g.died)+'</span></div>'+
+           '<div class="g-what">'+esc(g.what)+'</div><div class="g-note">'+esc(g.note)+"</div></div>";
+  }).join("");
+
+  render();
+})();
+</script>
+<!-- Analytics: create a free account at goatcounter.com, then uncomment and set your code.
+<script data-goatcounter="https://YOURCODE.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+-->
+</body>
+</html>

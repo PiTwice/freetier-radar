@@ -1,0 +1,486 @@
+{
+  "meta": {
+    "site": "FreeTier Radar",
+    "tagline": "Free tiers for developers — verified, with the traps highlighted",
+    "base_url": "https://USERNAME.github.io/freetier-radar",
+    "repo_url": "https://github.com/USERNAME/freetier-radar",
+    "newsletter_url": "https://freetierradar.substack.com",
+    "last_full_review": "2026-08-09",
+    "schema_version": 1
+  },
+  "tools": [
+    {
+      "id": "vercel",
+      "name": "Vercel",
+      "category": "hosting",
+      "url": "https://vercel.com",
+      "pricing_url": "https://vercel.com/pricing",
+      "summary": "Hobby plan: static + serverless hosting for personal projects.",
+      "limits": [
+        "100 GB bandwidth / mo",
+        "100k function invocations / mo",
+        "6,000 build minutes / mo",
+        "10s function timeout",
+        "1 concurrent build"
+      ],
+      "card_required": false,
+      "traps": [
+        "Commercial use is not allowed on Hobby",
+        "Hard caps: functions stop working when limits are hit"
+      ],
+      "verified": "2026-08-09",
+      "source": "https://deploywise.dev/blog/vercel-free-tier-limits-2026"
+    },
+    {
+      "id": "netlify",
+      "name": "Netlify",
+      "category": "hosting",
+      "url": "https://www.netlify.com",
+      "pricing_url": "https://www.netlify.com/pricing/",
+      "summary": "Free plan is now credit-based: 300 credits/month to spend on deploys, bandwidth and compute.",
+      "limits": [
+        "300 credits / mo",
+        "≈ 15 GB bandwidth (20 credits/GB) or ~20 production deploys (15 credits each)",
+        "1 team member"
+      ],
+      "card_required": false,
+      "traps": [
+        "Sites STOP SERVING traffic when credits run out (until next cycle)",
+        "Frequent production deploys burn credits fast"
+      ],
+      "verified": "2026-08-09",
+      "source": "https://netli.fyi/blog/netlify-pricing-and-limits"
+    },
+    {
+      "id": "cloudflare",
+      "name": "Cloudflare Workers + Pages",
+      "category": "hosting",
+      "url": "https://workers.cloudflare.com",
+      "pricing_url": "https://developers.cloudflare.com/workers/platform/pricing/",
+      "summary": "The most generous free hosting: unlimited static requests, serverless at the edge, KV/D1/R2 included.",
+      "limits": [
+        "100k Worker requests / day",
+        "10 ms CPU per invocation",
+        "Static assets: free and unlimited",
+        "D1 (SQLite): 5 GB storage, 5M row reads / day",
+        "KV: 100k reads / day, 1k writes / day"
+      ],
+      "card_required": false,
+      "traps": [
+        "10 ms CPU limit rules out heavy compute per request",
+        "Daily (not monthly) quotas — a traffic spike can exhaust a day"
+      ],
+      "verified": "2026-08-09",
+      "source": "https://developers.cloudflare.com/workers/platform/pricing/"
+    },
+    {
+      "id": "render",
+      "name": "Render",
+      "category": "hosting",
+      "url": "https://render.com",
+      "pricing_url": "https://render.com/docs/free",
+      "summary": "Free web services + static sites; closest thing to the old Heroku free tier.",
+      "limits": [
+        "750 instance-hours / mo per workspace",
+        "512 MB RAM web services",
+        "Free Postgres: 1 GB, single instance",
+        "No persistent disks, no SSH on free"
+      ],
+      "card_required": false,
+      "traps": [
+        "Services spin down after 15 min idle (~1 min cold start)",
+        "Free Postgres EXPIRES 30 days after creation — data deleted",
+        "Free Redis is in-memory only, data lost on restart"
+      ],
+      "verified": "2026-08-09",
+      "source": "https://render.com/docs/free"
+    },
+    {
+      "id": "railway",
+      "name": "Railway",
+      "category": "hosting",
+      "url": "https://railway.com",
+      "pricing_url": "https://docs.railway.com/pricing/free-trial",
+      "summary": "One-time $5 trial credit (30 days), then a tiny $1/month free credit.",
+      "limits": [
+        "$5 one-time trial credit, expires in 30 days",
+        "After trial: $1 free credit / mo (doesn't accumulate)",
+        "Trial: max 1 GB RAM, 5 services per project"
+      ],
+      "card_required": false,
+      "traps": [
+        "Trial volumes are DELETED 30 days after credits expire",
+        "$1/mo runs a real service for only a few days",
+        "Restricted outbound network unless verified via GitHub"
+      ],
+      "verified": "2026-08-09",
+      "source": "https://docs.railway.com/pricing/free-trial"
+    },
+    {
+      "id": "github-pages",
+      "name": "GitHub Pages",
+      "category": "hosting",
+      "url": "https://pages.github.com",
+      "pricing_url": "https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits",
+      "summary": "Free static hosting straight from a repo. Boring, reliable, hard to beat for docs and sites.",
+      "limits": [
+        "1 GB published site size",
+        "100 GB / mo bandwidth (soft limit)",
+        "10 builds / hour (soft limit)",
+        "Static only — no server code"
+      ],
+      "card_required": false,
+      "traps": [
+        "Sites in free private repos must be public",
+        "Soft limits: heavy traffic can get your site throttled"
+      ],
+      "verified": "2026-08-09",
+      "source": "https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits"
+    },
+    {
+      "id": "github-actions",
+      "name": "GitHub Actions",
+      "category": "cicd",
+      "url": "https://github.com/features/actions",
+      "pricing_url": "https://docs.github.com/en/actions/concepts/billing-and-usage",
+      "summary": "CI/CD built into GitHub. Unlimited for public repos; metered minutes for private ones.",
+      "limits": [
+        "Public repos: free, effectively unlimited",
+        "Private repos (Free plan): 2,000 minutes / mo",
+        "500 MB artifact/package storage"
+      ],
+      "card_required": false,
+      "traps": [
+        "macOS runners burn minutes at 10x rate, Windows at 2x",
+        "Pricing shake-up announced Dec 2025: hosted runner prices cut, self-hosted runner fee proposed then postponed — watch this space"
+      ],
+      "verified": "2026-08-09",
+      "source": "https://github.blog/changelog/2025-12-16-coming-soon-simpler-pricing-and-a-better-experience-for-github-actions/"
+    },
+    {
+      "id": "supabase",
+      "name": "Supabase",
+      "category": "database",
+      "url": "https://supabase.com",
+      "pricing_url": "https://supabase.com/pricing",
+      "summary": "Postgres + auth + storage + realtime in one free package. Great to start, aggressive pausing.",
+      "limits": [
+        "500 MB database",
+        "1 GB file storage",
+        "5 GB egress / mo",
+        "Auth: 50k monthly active users",
+        "2 active projects max"
+      ],
+      "card_required": false,
+      "traps": [
+        "Projects PAUSE after 1 week of inactivity (manual restore)",
+        "No backups / PITR on free",
+        "Paused long enough — project can be removed"
+      ],
+      "verified": "2026-08-09",
+      "source": "https://uibakery.io/blog/supabase-pricing"
+    },
+    {
+      "id": "neon",
+      "name": "Neon",
+      "category": "database",
+      "url": "https://neon.com",
+      "pricing_url": "https://neon.com/faqs/free-plan-limits-and-quotas",
+      "summary": "Serverless Postgres with branching. One of the cleanest free DB tiers right now.",
+      "limits": [
+        "0.5 GB storage per project",
+        "100 CU-hours compute / mo (~400h at 0.25 CU)",
+        "Up to 100 projects, 10 branches each",
+        "5 GB egress / mo"
+      ],
+      "card_required": false,
+      "traps": [
+        "Scale-to-zero after 5 min idle (can't be disabled) — first query after idle is slow",
+        "Compute suspends for the rest of the month if CU-hours run out"
+      ],
+      "verified": "2026-08-09",
+      "source": "https://neon.com/faqs/free-plan-limits-and-quotas"
+    },
+    {
+      "id": "turso",
+      "name": "Turso",
+      "category": "database",
+      "url": "https://turso.tech",
+      "pricing_url": "https://turso.tech/pricing",
+      "summary": "Edge SQLite (libSQL). Big storage for a free tier, read-heavy friendly.",
+      "limits": [
+        "5 GB storage",
+        "500M row reads / mo",
+        "10M row writes / mo"
+      ],
+      "card_required": false,
+      "traps": [
+        "SQLite semantics — not a drop-in Postgres/MySQL replacement",
+        "Write quota is 50x smaller than read quota"
+      ],
+      "verified": "2026-08-09",
+      "source": "https://agentdeals.dev/database-free-tier-comparison-2026"
+    },
+    {
+      "id": "mongodb-atlas",
+      "name": "MongoDB Atlas (M0)",
+      "category": "database",
+      "url": "https://www.mongodb.com/atlas",
+      "pricing_url": "https://www.mongodb.com/docs/atlas/reference/free-shared-limitations/",
+      "summary": "Free shared MongoDB cluster. Small but stable — has existed for years without cuts.",
+      "limits": [
+        "512 MB storage",
+        "Shared RAM / vCPU",
+        "500 max connections",
+        "1 M0 cluster per project"
+      ],
+      "card_required": false,
+      "traps": [
+        "Clusters idle for 60+ days can be auto-paused",
+        "No backups on M0; some ops (e.g. $out) unsupported"
+      ],
+      "verified": "2026-08-09",
+      "source": "https://www.mongodb.com/docs/atlas/reference/free-shared-limitations/"
+    },
+    {
+      "id": "upstash",
+      "name": "Upstash",
+      "category": "database",
+      "url": "https://upstash.com",
+      "pricing_url": "https://upstash.com/pricing",
+      "summary": "Serverless Redis + queues + vector DB, priced per request. Free tier has been stable for years.",
+      "limits": [
+        "Redis: 500k commands / mo, 256 MB",
+        "QStash: 1,000 messages / day",
+        "Vector: 10k vectors"
+      ],
+      "card_required": false,
+      "traps": [
+        "Per-command pricing model: a chatty client library can eat the quota"
+      ],
+      "verified": "2026-08-09",
+      "source": "https://agentdeals.dev/vendor/upstash"
+    },
+    {
+      "id": "firebase",
+      "name": "Firebase (Spark)",
+      "category": "database",
+      "url": "https://firebase.google.com",
+      "pricing_url": "https://firebase.google.com/pricing",
+      "summary": "Google's app backend. Free Spark plan still strong for Firestore + Auth, but shrinking.",
+      "limits": [
+        "Firestore: 1 GiB storage, 50k reads / day",
+        "Auth: 50k MAU",
+        "Cloud Functions: requires Blaze (pay-as-you-go) plan since 2025"
+      ],
+      "card_required": false,
+      "traps": [
+        "Cloud Storage was REMOVED from the free Spark plan (Feb 2026)",
+        "Deep lock-in to proprietary Google APIs",
+        "Easy to silently graduate into a paid Blaze bill"
+      ],
+      "verified": "2026-08-09",
+      "source": "https://agentdeals.dev/database-free-tier-comparison-2026"
+    },
+    {
+      "id": "clerk",
+      "name": "Clerk",
+      "category": "auth",
+      "url": "https://clerk.com",
+      "pricing_url": "https://clerk.com/pricing",
+      "summary": "Drop-in auth components. Free tier recently jumped to 50k monthly retained users.",
+      "limits": [
+        "50,000 monthly retained users (MRU)",
+        "Up to 3 social login providers",
+        "100 monthly retained organizations",
+        "3 dashboard seats"
+      ],
+      "card_required": false,
+      "traps": [
+        "MRU counts users who RETURN 24h+ after signup — different metric than MAU",
+        "No MFA, passkeys or SMS auth on free",
+        "7-day fixed session lifetime"
+      ],
+      "verified": "2026-08-09",
+      "source": "https://clerk.com/pricing"
+    },
+    {
+      "id": "auth0",
+      "name": "Auth0",
+      "category": "auth",
+      "url": "https://auth0.com",
+      "pricing_url": "https://auth0.com/pricing",
+      "summary": "Enterprise-grade auth with a generous MAU cap. Feature gates, not user counts, push you to paid.",
+      "limits": [
+        "25,000 MAU",
+        "Basic social + password login",
+        "Community support"
+      ],
+      "card_required": false,
+      "traps": [
+        "Real ceiling is features: richer MFA, custom domains, enterprise SSO are paid",
+        "Paid tiers get expensive fast once you cross them"
+      ],
+      "verified": "2026-08-09",
+      "source": "https://idsync.com/guides/auth0-pricing"
+    },
+    {
+      "id": "resend",
+      "name": "Resend",
+      "category": "email",
+      "url": "https://resend.com",
+      "pricing_url": "https://resend.com/pricing",
+      "summary": "Developer-first transactional email. The default free choice since SendGrid killed its free plan.",
+      "limits": [
+        "3,000 emails / mo",
+        "100 emails / day",
+        "1 verified domain"
+      ],
+      "card_required": false,
+      "traps": [
+        "The 100/day cap is what you hit first — bursts (launch day!) get throttled"
+      ],
+      "verified": "2026-08-09",
+      "source": "https://automationatlas.io/answers/resend-free-tier-explained-2026/"
+    },
+    {
+      "id": "sentry",
+      "name": "Sentry",
+      "category": "monitoring",
+      "url": "https://sentry.io",
+      "pricing_url": "https://sentry.io/pricing/",
+      "summary": "Error tracking + performance. Free Developer plan covers a solo project comfortably.",
+      "limits": [
+        "5,000 errors / mo",
+        "5M spans (performance)",
+        "50 session replays",
+        "1 user seat, 1 uptime + 1 cron monitor"
+      ],
+      "card_required": false,
+      "traps": [
+        "1 seat only — no teammates on free",
+        "A crash-loop in production can blow the month's error quota in minutes (set rate limits!)"
+      ],
+      "verified": "2026-08-09",
+      "source": "https://www.toolpick.dev/pricing/sentry"
+    },
+    {
+      "id": "grafana-cloud",
+      "name": "Grafana Cloud",
+      "category": "monitoring",
+      "url": "https://grafana.com/products/cloud/",
+      "pricing_url": "https://grafana.com/products/cloud/free-tier/",
+      "summary": "Managed metrics + logs + traces with a 'free forever' tier. No card required.",
+      "limits": [
+        "10k active metric series",
+        "50 GB logs + 50 GB traces / mo",
+        "14-day retention on free"
+      ],
+      "card_required": false,
+      "traps": [
+        "14-day retention — no long-term history",
+        "Careless Prometheus labels multiply active series fast"
+      ],
+      "verified": "2026-08-09",
+      "source": "https://grafana.com/products/cloud/free-tier/"
+    },
+    {
+      "id": "cloudinary",
+      "name": "Cloudinary",
+      "category": "storage",
+      "url": "https://cloudinary.com",
+      "pricing_url": "https://cloudinary.com/pricing",
+      "summary": "Image/video CDN with on-the-fly transforms. Credit-based free tier, stable for years.",
+      "limits": [
+        "25 monthly credits (1 credit = 1 GB storage OR 1 GB bandwidth OR 1k transformations)",
+        "Up to ~25 GB storage or bandwidth if used for one thing"
+      ],
+      "card_required": false,
+      "traps": [
+        "Credits are shared across storage, bandwidth AND transforms — they interact",
+        "Popular images with many transform variants eat credits quickly"
+      ],
+      "verified": "2026-08-09",
+      "source": "https://cloudinary.com/pricing"
+    },
+    {
+      "id": "cloudflare-r2",
+      "name": "Cloudflare R2",
+      "category": "storage",
+      "url": "https://developers.cloudflare.com/r2/",
+      "pricing_url": "https://developers.cloudflare.com/r2/pricing/",
+      "summary": "S3-compatible object storage with ZERO egress fees — the killer feature.",
+      "limits": [
+        "10 GB storage / mo free",
+        "1M class A + 10M class B operations / mo",
+        "Egress: free, always"
+      ],
+      "card_required": true,
+      "traps": [
+        "Requires a Cloudflare account with billing enabled to activate R2"
+      ],
+      "verified": "2026-08-09",
+      "source": "https://developers.cloudflare.com/r2/pricing/"
+    },
+    {
+      "id": "oracle-cloud",
+      "name": "Oracle Cloud (Always Free)",
+      "category": "hosting",
+      "url": "https://www.oracle.com/cloud/free/",
+      "pricing_url": "https://www.oracle.com/cloud/free/",
+      "summary": "Absurdly large 'Always Free' VMs: up to 4 ARM cores + 24 GB RAM. The catch is availability and reclaims.",
+      "limits": [
+        "4 OCPU ARM Ampere + 24 GB RAM (splittable into VMs)",
+        "2 AMD micro VMs (1/8 OCPU, 1 GB)",
+        "200 GB block storage",
+        "10 TB egress / mo"
+      ],
+      "card_required": true,
+      "traps": [
+        "Card required at signup; ARM capacity often 'out of stock' in popular regions",
+        "Idle instances on free accounts can be RECLAIMED — keep some CPU activity",
+        "Account termination stories are common; keep backups elsewhere"
+      ],
+      "verified": "2026-08-09",
+      "source": "https://www.oracle.com/cloud/free/"
+    }
+  ],
+  "graveyard": [
+    {
+      "name": "Heroku",
+      "died": "2022-11",
+      "what": "The original free PaaS: free dynos + free Postgres",
+      "note": "Killed all free plans citing abuse; pushed users to $5+/mo Eco dynos."
+    },
+    {
+      "name": "Railway (unlimited free)",
+      "died": "2023-08",
+      "what": "The generous $5/mo recurring free credit era",
+      "note": "Now a one-time $5 trial for 30 days, then $1/mo. Trial volumes deleted 30 days after expiry."
+    },
+    {
+      "name": "PlanetScale",
+      "died": "2024-04",
+      "what": "Free MySQL: 5 GB storage, 1B row reads/mo",
+      "note": "Free tier removed for existing users too; thousands forced to migrate. Now from $39/mo."
+    },
+    {
+      "name": "Fly.io",
+      "died": "2024",
+      "what": "Free allowances: 3 shared VMs + 3 GB volumes",
+      "note": "Moved to pure pay-as-you-go for new accounts. No free tier."
+    },
+    {
+      "name": "SendGrid",
+      "died": "2025",
+      "what": "Free 100 emails/day forever plan",
+      "note": "Replaced by a 60-day trial. After that: pay or stop sending."
+    },
+    {
+      "name": "Firebase Cloud Storage (Spark)",
+      "died": "2026-02",
+      "what": "Free 5 GB file storage on the Spark plan",
+      "note": "Cloud Storage now requires the paid Blaze plan; free tier keeps Firestore + Auth."
+    }
+  ]
+}
